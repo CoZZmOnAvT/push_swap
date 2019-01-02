@@ -1,0 +1,15 @@
+/home/phrytsenko/fun_staff/push_swap/build/CMakeFiles/rebuild_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/CMakeFiles/push_swap.dir
+/home/phrytsenko/fun_staff/push_swap/build/CMakeFiles/edit_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/libft/CMakeFiles/rebuild_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/libft/CMakeFiles/ft.dir
+/home/phrytsenko/fun_staff/push_swap/build/libft/CMakeFiles/edit_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/libft/test/CMakeFiles/rebuild_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/libft/test/CMakeFiles/ft_test.dir
+/home/phrytsenko/fun_staff/push_swap/build/libft/test/CMakeFiles/edit_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/unity_test_framework/CMakeFiles/rebuild_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/unity_test_framework/CMakeFiles/unity.dir
+/home/phrytsenko/fun_staff/push_swap/build/unity_test_framework/CMakeFiles/edit_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/checker/CMakeFiles/rebuild_cache.dir
+/home/phrytsenko/fun_staff/push_swap/build/checker/CMakeFiles/checker.dir
+/home/phrytsenko/fun_staff/push_swap/build/checker/CMakeFiles/edit_cache.dir

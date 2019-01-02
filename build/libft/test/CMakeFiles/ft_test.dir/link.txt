@@ -1,0 +1,1 @@
+/usr/bin/cc  -Wextra -Wall -Werror -Wextra -Wall -Werror -Wextra -Wall -Werror  -rdynamic CMakeFiles/ft_test.dir/src/main.c.o  -o ft_test ../libft.a ../../unity_test_framework/libunity.a 

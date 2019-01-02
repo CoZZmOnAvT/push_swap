@@ -1,0 +1,1 @@
+/usr/bin/cc  -Wextra -Wall -Werror -Wextra -Wall -Werror  -rdynamic CMakeFiles/checker.dir/src/main.c.o  -o checker ../libft/libft.a 
