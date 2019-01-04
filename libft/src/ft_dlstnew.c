@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-t_dlist		*ft_dlstnew(void *content, size_t content_size)
+t_dlist		*ft_dlstnew(void const *content, size_t content_size)
 {
 	t_dlist	*new;
 
@@ -25,8 +25,7 @@ t_dlist		*ft_dlstnew(void *content, size_t content_size)
 		ft_memdel((void **)&new);
 		return (NULL);
 	}
-	content ? ft_memcpy(new->content, content, content_size) : 0;
-	!content ? new->content = NULL : 0;
+	new->content = content ? ft_memcpy(new->content, content, content_size) : 0;
 	new->content_size = content ? content_size : 0;
 	return (new);
 }

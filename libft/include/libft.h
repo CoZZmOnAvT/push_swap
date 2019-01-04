@@ -236,6 +236,8 @@ char			*ft_strrev(char *s);
 
 char			*ft_strshift(char *str, long offset);
 
+double          ft_get_fractional(double num);
+
 int				ft_get_next_line(const int fd, char **line);
 
 int				ft_printf(const char *format, ...);
@@ -293,7 +295,7 @@ void			ft_swap_f(double *a, double *b);
 **		Circular double linked list functions
 */
 
-t_dlist			*ft_dlstnew(void *content, size_t content_size);
+t_dlist			*ft_dlstnew(void const *content, size_t content_size);
 
 void			ft_dlstpush(t_dlist **dest, t_dlist *src);
 

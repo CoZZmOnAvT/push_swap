@@ -14,3 +14,8 @@ file(GLOB SOURCES ${PROJECT_SRC_DIR}/*.c)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ft unity)
+add_test(libft_test ${PROJECT_NAME})
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/res/basic_file.txt
+               ${CMAKE_CURRENT_BINARY_DIR}/res/basic_file.txt
+               COPYONLY)

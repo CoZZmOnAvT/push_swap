@@ -1,1 +1,0 @@
-/usr/bin/cc  -Wextra -Wall -Werror  -rdynamic CMakeFiles/push_swap.dir/src/main.c.o  -o push_swap libft/libft.a 

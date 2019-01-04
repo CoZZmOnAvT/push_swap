@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <limits.h>
 
 int			ft_atoi(const char *s)
 {
@@ -22,9 +23,7 @@ int			ft_atoi(const char *s)
 		return (0);
 	while (((*s > '\10' && *s <= '\16') || *s == '\40'))
 		s++;
-	sign = 1;
-	if (*s == '-')
-		sign = -1;
+	sign = *s == '-' ? -1 : 1;
 	if (*s == '-' || *s == '+')
 		s++;
 	result = 0;
@@ -45,18 +44,25 @@ long long	ft_atoll(const char *s)
 {
 	long long	result;
 	int			sign;
+	int		it;
 
 	if (*s == 0)
 		return (0);
 	while (((*s > '\10' && *s <= '\16') || *s == '\40'))
 		s++;
-	sign = 1;
-	if (*s == '-')
-		sign = -1;
+	sign = *s == '-' ? -1 : 1;
 	if (*s == '-' || *s == '+')
 		s++;
 	result = 0;
+	it = 0;
 	while (*s >= '0' && *s <= '9')
-		result = (result * 10) + (*s++ - '0');
+	{
+		if ((result = (result * 10L) + (*s++ - '0')) != 0)
+			it++;
+		if ((((it > 19 || result < 0) || (it && !result)) && sign != -1))
+			return (LLONG_MAX);
+		else if ((((it > 19 || result < 0) || (it && !result)) && sign == -1))
+			return (LLONG_MIN);
+	}
 	return (result * sign);
 }

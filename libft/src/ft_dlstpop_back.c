@@ -14,7 +14,10 @@
 
 void	ft_dlstpop_back(t_dlist *dlst)
 {
+	t_dlist *del;
+
 	if (!dlst)
 		return ;
-	ft_dlstdelelem(&dlst->prev);
+	del = dlst->prev;
+	ft_dlstdelelem(&del);
 }

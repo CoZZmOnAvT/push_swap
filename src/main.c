@@ -3,10 +3,10 @@
 /*                                                                            */
 /*   main.c                                                                   */
 /*                                                                            */
-/*   By: phrytsenko                                                           */
+/*   By: cozzmonavt                                                           */
 /*                                                                            */
-/*   Created: 2019/01/02 15:45:07 by phrytsenko                               */
-/*   Updated: 2019/01/02 15:57:11 by phrytsenko                               */
+/*   Created: 2019/01/02 15:45:07 by cozzmonavt                               */
+/*   Updated: 2019/01/02 15:57:11 by cozzmonavt                               */
 /*                                                                            */
 /* ************************************************************************** */
 

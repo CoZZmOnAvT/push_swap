@@ -24,15 +24,13 @@ intmax_t	ft_atol_base(const char *s, int base)
 		return (0);
 	while (((*s > '\10' && *s <= '\16') || *s == '\40'))
 		s++;
-	sign = 1;
-	if (*s == '-')
-		sign = -1;
+	sign = *s == '-' ? -1 : 1;
 	if (*s == '-' || *s == '+')
 		s++;
 	ret = 0;
 	while (ft_isalnum(*s))
 	{
-		if ((tmp = ft_strclen(NUMERIC_ALPHABET, ft_toupper(*s++))) > base)
+		if ((tmp = ft_strclen(NUMERIC_ALPHABET, ft_toupper(*s++))) >= base)
 			break ;
 		ret = (ret * base) + tmp;
 	}
