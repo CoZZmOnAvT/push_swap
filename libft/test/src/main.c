@@ -6,7 +6,7 @@
 /*   By: cozzmonavt                                                           */
 /*                                                                            */
 /*   Created: 2019/01/02 16:17:55 by cozzmonavt                               */
-/*   Updated: 2019/01/05 14:47:07 by cozzmonavt                               */
+/*   Updated: 2019/01/05 23:29:02 by cozzmonavt                               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,7 @@
 #include <libgen.h>
 #include "libft.h"
 
-#ifndef _G_BUFSIZ
-# define _G_BUFSIZ 8192
-#endif
-
-char * g_stream_buffer;
-int g_stream_save;
-
 char * g_executable_path;
-
-void capture_stream(FILE * stream)
-{
-	fflush(stream);
-	g_stream_save = dup(fileno(stream));
-	freopen("NUL", "a", stream);
-	setvbuf(stream, g_stream_buffer, _IOFBF, _G_BUFSIZ);
-}
-
-void restore_stream(FILE * stream)
-{
-	freopen("NUL", "a", stream);
-	dup2(g_stream_save, fileno(stream));
-	setvbuf(stream, NULL, _IONBF, _G_BUFSIZ);
-}
 
 void test_ft_abs(void)
 {
@@ -830,10 +808,260 @@ void test_ft_memset(void)
 	TEST_ASSERT_EQUAL_MEMORY(memset(sys_data, 'x', sizeof(sys_data)), ft_memset(my_data, 'x', sizeof(my_data)), sizeof(sys_data));
 }
 
+void test_ft_nbrblen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrblen(0));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrblen(1));
+	TEST_ASSERT_EQUAL_INT8(2, ft_nbrblen(2));
+	TEST_ASSERT_EQUAL_INT8(13, ft_nbrblen(0x1555));
+	TEST_ASSERT_EQUAL_INT8(63, ft_nbrblen(LONG_MAX));
+	TEST_ASSERT_EQUAL_INT8(64, ft_nbrblen(LONG_MIN));
+}
+
+void test_ft_nbrlen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(3, ft_nbrlen(123));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrlen(1));
+	TEST_ASSERT_EQUAL_INT8(2, ft_nbrlen(-1));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrlen(0));
+	TEST_ASSERT_EQUAL_INT8(10, ft_nbrlen(INT_MAX));
+	TEST_ASSERT_EQUAL_INT8(11, ft_nbrlen(INT_MIN));
+}
+
+void test_ft_nbrllen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(3, ft_nbrllen(123));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrllen(1));
+	TEST_ASSERT_EQUAL_INT8(2, ft_nbrllen(-1));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrllen(0));
+	TEST_ASSERT_EQUAL_INT8(10, ft_nbrllen(INT_MAX));
+	TEST_ASSERT_EQUAL_INT8(11, ft_nbrllen(INT_MIN));
+	TEST_ASSERT_EQUAL_INT8(19, ft_nbrllen(LONG_MAX));
+	TEST_ASSERT_EQUAL_INT8(20, ft_nbrllen(LONG_MIN));
+}
+
+void test_ft_nbrulen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(3, ft_nbrulen(123));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrulen(1));
+	TEST_ASSERT_EQUAL_INT8(10, ft_nbrulen(-1));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrulen(0));
+	TEST_ASSERT_EQUAL_INT8(10, ft_nbrulen(INT_MAX));
+	TEST_ASSERT_EQUAL_INT8(10, ft_nbrulen(INT_MIN));
+}
+
+void test_ft_nbrullen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(3, ft_nbrullen(123));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrullen(1));
+	TEST_ASSERT_EQUAL_INT8(20, ft_nbrullen(-1));
+	TEST_ASSERT_EQUAL_INT8(1, ft_nbrullen(0));
+	TEST_ASSERT_EQUAL_INT8(10, ft_nbrullen(INT_MAX));
+	TEST_ASSERT_EQUAL_INT8(20, ft_nbrullen(INT_MIN));
+	TEST_ASSERT_EQUAL_INT8(19, ft_nbrullen(LONG_MAX));
+	TEST_ASSERT_EQUAL_INT8(20, ft_nbrullen(ULONG_MAX));
+}
+
+void test_ft_nbrflen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(6, ft_nbrflen(123.0, 2));
+	TEST_ASSERT_EQUAL_INT8(4, ft_nbrflen(1.0, 2));
+}
+
+void test_ft_nbrlflen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(6, ft_nbrlflen(123.0L, 2));
+	TEST_ASSERT_EQUAL_INT8(4, ft_nbrlflen(1.0L, 2));
+}
+
+void test_ft_nbrelen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(8, ft_nbrelen(123.0, 2));
+	TEST_ASSERT_EQUAL_INT8(8, ft_nbrelen(1.0, 2));
+}
+
+void test_ft_nbrellen(void)
+{
+	TEST_ASSERT_EQUAL_INT8(8, ft_nbrellen(123.0L, 2));
+	TEST_ASSERT_EQUAL_INT8(8, ft_nbrellen(1.0L, 2));
+}
+
+void test_ft_octlen(void)
+{
+	TEST_ASSERT_EQUAL_INT64(1, ft_octlen(00));
+	TEST_ASSERT_EQUAL_INT64(1, ft_octlen(07));
+	TEST_ASSERT_EQUAL_INT64(2, ft_octlen(077));
+	TEST_ASSERT_EQUAL_INT64(4, ft_octlen(07777));
+	TEST_ASSERT_EQUAL_INT64(4, ft_octlen(01234));
+	TEST_ASSERT_EQUAL_INT64(8, ft_octlen(077777777));
+}
+
+void test_ft_loctlen(void)
+{
+	TEST_ASSERT_EQUAL_INT64(1, ft_loctlen(00));
+	TEST_ASSERT_EQUAL_INT64(1, ft_loctlen(07));
+	TEST_ASSERT_EQUAL_INT64(2, ft_loctlen(077));
+	TEST_ASSERT_EQUAL_INT64(4, ft_loctlen(07777));
+	TEST_ASSERT_EQUAL_INT64(4, ft_loctlen(01234));
+	TEST_ASSERT_EQUAL_INT64(8, ft_loctlen(077777777));
+	TEST_ASSERT_EQUAL_INT64(21, ft_loctlen(0777777777777777777777));
+}
+
+void test_ft_pow(void)
+{
+	TEST_ASSERT_EQUAL_FLOAT(1337, ft_pow(1337, 1));
+	TEST_ASSERT_EQUAL_FLOAT(1, ft_pow(1337, 0));
+	TEST_ASSERT_EQUAL_FLOAT(4, ft_pow(2, 2));
+	TEST_ASSERT_EQUAL_FLOAT(INT8_MAX, ft_pow(2, 7) - 1);
+	TEST_ASSERT_EQUAL_FLOAT(UINT8_MAX, ft_pow(2, 8) - 1);
+	TEST_ASSERT_EQUAL_FLOAT(INT16_MAX, ft_pow(2, 15) - 1);
+	TEST_ASSERT_EQUAL_FLOAT(UINT16_MAX, ft_pow(2, 16) - 1);
+	TEST_ASSERT_EQUAL_FLOAT(INT32_MAX, ft_pow(2, 31) - 1);
+	TEST_ASSERT_EQUAL_FLOAT(UINT32_MAX, ft_pow(2, 32) - 1);
+	TEST_ASSERT_EQUAL_FLOAT(INT64_MAX, ft_pow(2, 63) - 1);
+	TEST_ASSERT_EQUAL_FLOAT(UINT64_MAX, ft_pow(2, 64) - 1);
+}
+
+void test_ft_skipdigits(void)
+{
+	TEST_ASSERT_EQUAL_INT64(3, ft_skipdigits("132adfas"));
+	TEST_ASSERT_EQUAL_INT64(3, ft_skipdigits("132"));
+	TEST_ASSERT_EQUAL_INT64(0, ft_skipdigits("abc132"));
+	TEST_ASSERT_EQUAL_INT64(0, ft_skipdigits(""));
+	TEST_ASSERT_EQUAL_INT64(0, ft_skipdigits("abc"));
+}
+
+void test_ft_strcat(void)
+{
+	char my_data[128];
+	char sys_data[128];
+
+	char const * part1 = "These ";
+	char const * part2 = " strings are ";
+	char const * part3 = "concatenated.";
+
+	strcpy(my_data, part1);
+	strcpy(sys_data, part1);
+	strcat(my_data, part2);
+	ft_strcat(sys_data, part2);
+	strcat(my_data, part3);
+	ft_strcat(sys_data, part3);
+	TEST_ASSERT_EQUAL_STRING(sys_data, my_data);
+}
+
+void test_ft_strchr(void)
+{
+	char const * seed = "AbCREDFjlfa123";
+
+	TEST_ASSERT_EQUAL_PTR(strchr(seed, 'C'), ft_strchr(seed, 'C'));
+	TEST_ASSERT_EQUAL_PTR(strchr(seed, 'Q'), ft_strchr(seed, 'Q'));
+	TEST_ASSERT_EQUAL_PTR(strchr(seed, '3'), ft_strchr(seed, '3'));
+	TEST_ASSERT_EQUAL_PTR(strchr(seed, 'A'), ft_strchr(seed, 'A'));
+	TEST_ASSERT_EQUAL_PTR(strchr(seed, '\0'), ft_strchr(seed, '\0'));
+	TEST_ASSERT_EQUAL_PTR(strchr("", '\0'), ft_strchr("", '\0'));
+	TEST_ASSERT_EQUAL_PTR(strchr("", 'Q'), ft_strchr("", 'Q'));
+}
+
+void test_ft_strclen(void)
+{
+	char const * seed = "AbCREDFjlfa123";
+
+	TEST_ASSERT_EQUAL_INT64(strchr(seed, 'C') - seed, ft_strclen(seed, 'C'));
+	TEST_ASSERT_EQUAL_INT64(strlen(seed), ft_strclen(seed, 'Q'));
+	TEST_ASSERT_EQUAL_INT64(strchr(seed, '3') - seed, ft_strclen(seed, '3'));
+	TEST_ASSERT_EQUAL_INT64(strchr(seed, 'A') - seed, ft_strclen(seed, 'A'));
+	TEST_ASSERT_EQUAL_INT64(strchr(seed, '\0') - seed, ft_strclen(seed, '\0'));
+	TEST_ASSERT_EQUAL_INT64(0, ft_strclen("", '\0'));
+	TEST_ASSERT_EQUAL_INT64(0, ft_strclen("", 'Q'));
+}
+
+void test_ft_strclr(void)
+{
+	char str[] = "Hello Wolrd!";
+
+	ft_strclr(str);
+	TEST_ASSERT_EACH_EQUAL_INT8(0, str, sizeof(str));
+}
+
+void test_ft_strcmp(void)
+{
+	{
+		char s1[] = "Hello Wolrd";
+		char s2[] = "Hello Wolrd";
+
+		TEST_ASSERT_EQUAL_INT8(0, ft_strcmp(s1, s2));
+	}
+	{
+		char s1[] = "Hello\0Wolrd";
+		char s2[] = "Hello\0Man";
+
+		TEST_ASSERT_EQUAL_INT8(0, ft_strcmp(s1, s2));
+	}
+	{
+		char s1[] = "Hello W0lrd";
+		char s2[] = "Hello Wolrd";
+
+		TEST_ASSERT_EQUAL_INT8('0' - 'o', ft_strcmp(s1, s2));
+	}
+	TEST_ASSERT_EQUAL_INT8(0, ft_strcmp("", ""));
+}
+
+void test_ft_strcpy(void)
+{
+	char my_data[32];
+	char sys_data[32];
+
+	{
+		char const *s = "Hello Wolrd";
+		TEST_ASSERT_EQUAL_STRING(strcpy(sys_data, s), ft_strcpy(my_data, s));
+	}
+	{
+		char const *s = "Hello Wolrd, Man";
+		TEST_ASSERT_EQUAL_STRING(strcpy(sys_data, s), ft_strcpy(my_data, s));
+	}
+	{
+		char const *s = "Hey?";
+		TEST_ASSERT_EQUAL_STRING(strcpy(sys_data, s), ft_strcpy(my_data, s));
+	}
+	TEST_ASSERT_EQUAL_STRING(strcpy(sys_data, ""), ft_strcpy(my_data, ""));
+}
+
+void test_ft_strequ(void)
+{
+	char empty_string[] = "";
+	TEST_ASSERT_MESSAGE(ft_strequ(empty_string, empty_string) == 1, "Empty strings are equal");
+	empty_string[0] = 'A';
+	TEST_ASSERT_MESSAGE(ft_strequ(empty_string, empty_string) == 1, "Empty strings are equal");
+
+	TEST_ASSERT_MESSAGE(ft_strequ("Hello World", "Hello World") == 1, "Strings are equal");
+	TEST_ASSERT_MESSAGE(ft_strequ("Hello World", "Hello World!") == 0, "Strings are not equal");
+	TEST_ASSERT_MESSAGE(ft_strequ("Hello World?", "Hello World!") == 0, "Strings are not equal");
+}
+
+void test_ft_strnequ(void)
+{
+	{
+		char const s1[] = "Hello Wolrd";
+		char const s2[] = "Hello W0lrd";
+		TEST_ASSERT_MESSAGE(ft_strnequ(s1, s2, 7) == 1, "Till 7-th byte strings are equal");
+		TEST_ASSERT_MESSAGE(ft_strnequ(s1, s2, sizeof(s2)) == 0, "Full strings are not equal");
+	}
+	{
+		char const s1[] = "Hello World!";
+		char const s2[] = "Hello World";
+		TEST_ASSERT_MESSAGE(ft_strnequ(s1, s2, sizeof(s2) - 1) == 1, "Part till '!' are equal");
+		TEST_ASSERT_MESSAGE(ft_strnequ(s1, s2, sizeof(s1) - 1) == 0, "Full strings are not equal");
+		TEST_ASSERT_MESSAGE(ft_strnequ(s1, s2, sizeof(s1)) == 0, "Full strings are not equal");
+	}
+	char empty_string[] = "";
+	TEST_ASSERT_MESSAGE(ft_strnequ(empty_string, empty_string, 1) == 1, "Empty strings are equal");
+	empty_string[0] = 'A';
+	TEST_ASSERT_MESSAGE(ft_strnequ(empty_string, empty_string, 1) == 1, "Empty strings are equal");
+}
+
 int main(int ac, char **argv)
 {
 	(void)ac;
-	g_stream_buffer = malloc(_G_BUFSIZ + 1);
 	g_executable_path = dirname(argv[0]);
 
 	UNITY_BEGIN();
@@ -886,5 +1114,26 @@ int main(int ac, char **argv)
 	RUN_TEST(test_ft_memdel);
 	RUN_TEST(test_ft_memmove);
 	RUN_TEST(test_ft_memset);
+	RUN_TEST(test_ft_nbrblen);
+	RUN_TEST(test_ft_nbrlen);
+	RUN_TEST(test_ft_nbrllen);
+	RUN_TEST(test_ft_nbrulen);
+	RUN_TEST(test_ft_nbrullen);
+	RUN_TEST(test_ft_nbrflen);
+	RUN_TEST(test_ft_nbrlflen);
+	RUN_TEST(test_ft_nbrelen);
+	RUN_TEST(test_ft_nbrellen);
+	RUN_TEST(test_ft_octlen);
+	RUN_TEST(test_ft_loctlen);
+	RUN_TEST(test_ft_pow);
+	RUN_TEST(test_ft_skipdigits);
+	RUN_TEST(test_ft_strcat);
+	RUN_TEST(test_ft_strchr);
+	RUN_TEST(test_ft_strclen);
+	RUN_TEST(test_ft_strclr);
+	RUN_TEST(test_ft_strcmp);
+	RUN_TEST(test_ft_strcpy);
+	RUN_TEST(test_ft_strequ);
+	RUN_TEST(test_ft_strnequ);
 	return (UNITY_END());
 }

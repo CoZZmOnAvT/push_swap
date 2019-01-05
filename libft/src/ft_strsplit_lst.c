@@ -16,32 +16,30 @@ static void		node_del(void *content, size_t content_size)
 {
 	ft_bzero(content, content_size);
 	ft_memdel(&content);
-	content_size = 0;
 }
 
 t_list			*ft_strsplit_lst(char const *s, char c)
 {
 	t_list	*list;
 	t_list	*tmp;
-	char	*p_s;
-	size_t	w_l;
+	char	**splitted;
+	ssize_t	it;
 
 	list = NULL;
 	if (!s)
 		return (NULL);
-	if (!*(p_s = ft_strntrim(s, c)))
+	else if (!(splitted = ft_strsplit(s, c)))
 		return (NULL);
-	while (*p_s)
+	it = -1;
+	while (splitted[++it])
 	{
-		p_s = ft_strntrim(p_s, c);
-		w_l = ft_strclen(p_s, c);
-		if (!(tmp = ft_lstnew((void *)ft_strsub(p_s, 0, w_l), w_l + 1)))
+		if (!(tmp = ft_lstnew(splitted[it], sizeof(void *))))
 		{
 			ft_lstdel(&list, &node_del);
 			return (NULL);
 		}
 		ft_lstadd_back(&list, tmp);
-		p_s += w_l;
 	}
+	free(splitted);
 	return (list);
 }

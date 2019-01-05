@@ -149,6 +149,8 @@ int				ft_strncmp(const char *s1, const char *s2, size_t n);
 
 int				ft_atoi(const char *s);
 
+double          ft_atof(const char *src);
+
 intmax_t		ft_atol_base(const char *s, int base);
 
 long long		ft_atoll(const char *s);
@@ -176,8 +178,6 @@ void			*ft_memalloc(size_t size);
 void			ft_memdel(void **ap);
 
 char			*ft_strnew(size_t size);
-
-void			ft_strdel(char **as);
 
 void			ft_strclr(char *s);
 
@@ -310,5 +310,7 @@ size_t			ft_dlstsize(t_dlist *dlst);
 void			ft_dlstpop(t_dlist *dlst);
 
 void			ft_dlstpop_back(t_dlist *dlst);
+
+t_dlist			*ft_strsplit_dlst(char const *s, char c);
 
 #endif
