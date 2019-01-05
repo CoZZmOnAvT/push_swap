@@ -17,12 +17,12 @@ void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 	t_list	*lst;
 	t_list	*buff;
 
-	if (!alst || !del)
+	if (!alst)
 		return ;
 	lst = *alst;
 	while (lst)
 	{
-		del(lst->content, lst->content_size);
+		del ? del(lst->content, lst->content_size) : 0;
 		buff = lst->next;
 		ft_memdel((void **)&lst);
 		lst = buff;

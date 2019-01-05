@@ -6,7 +6,7 @@
 /*   By: cozzmonavt                                                           */
 /*                                                                            */
 /*   Created: 2019/01/02 16:17:55 by cozzmonavt                               */
-/*   Updated: 2019/01/04 22:59:00 by cozzmonavt                               */
+/*   Updated: 2019/01/05 14:47:07 by cozzmonavt                               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -490,6 +490,346 @@ void test_ft_isprint(void)
 	TEST_ASSERT_MESSAGE(!ft_isprint(0xFF), "0xFF");
 }
 
+void test_ft_itoa(void)
+{
+	char *str;
+
+	TEST_ASSERT_EQUAL_STRING("0", (str = ft_itoa(0)));
+	free(str);
+	TEST_ASSERT_EQUAL_STRING("2147483647", (str = ft_itoa(INT_MAX)));
+	free(str);
+	TEST_ASSERT_EQUAL_STRING("-2147483648", (str = ft_itoa(INT_MIN)));
+	free(str);
+	TEST_ASSERT_EQUAL_STRING("1", (str = ft_itoa(1)));
+	free(str);
+	TEST_ASSERT_EQUAL_STRING("65535", (str = ft_itoa(UINT16_MAX)));
+	free(str);
+	TEST_ASSERT_EQUAL_STRING("32767", (str = ft_itoa(INT16_MAX)));
+	free(str);
+}
+
+/* t_lst utillity functions [START]*/
+
+void util_lst_deleter(void *data, size_t content_size)
+{
+	free(data);
+	(void)content_size;
+}
+
+void util_lst_iterator(t_list * node)
+{
+	free(node->content);
+	node->content = malloc(8);
+	snprintf(node->content, 8, "SUCCESS");
+	node->content_size = 1337;
+}
+
+t_list *util_lst_map_malloc(t_list * node)
+{
+	t_list *tmp = ft_lstnew(NULL, 0);
+
+	tmp->content_size = node->content_size + 1;
+	tmp->content = malloc(tmp->content_size);
+	snprintf(tmp->content, tmp->content_size, "%s+", (char *)node->content);
+	tmp->next = node->next;
+	return (tmp);
+}
+
+t_list *util_lst_map_mreuse(t_list * node)
+{
+	char *tmp = node->content;
+
+	node->content_size++;
+	node->content = malloc(node->content_size);
+	snprintf(node->content, node->content_size, "%s+", (char *)tmp);
+	free(tmp);
+	return (node);
+}
+
+/* t_lst utillity functions [END]*/
+
+void test_ft_lstnew(void)
+{
+	{
+		t_list	*node = ft_lstnew(NULL, 0);
+
+		TEST_ASSERT_MESSAGE(node->next == NULL, "The list is wrong linked");
+		TEST_ASSERT_EQUAL_PTR(NULL, node->content);
+		TEST_ASSERT_EQUAL_INT64(0, node->content_size);
+		ft_lstdelone(&node, NULL);
+	}
+	{
+		char const str[] = "Hello World";
+		t_list	*node = ft_lstnew(str, sizeof(str));
+
+		TEST_ASSERT_EQUAL_STRING(str, node->content);
+		TEST_ASSERT_EQUAL_INT64(sizeof(str), node->content_size);
+		ft_lstdelone(&node, &util_lst_deleter);
+	}
+}
+
+void test_ft_lstadd(void)
+{
+	char const str[] = "Hello World";
+	char const str2[] = "Bye World";
+	t_list	*node = NULL;
+
+	ft_lstadd(&node, ft_lstnew(str, sizeof(str)));
+	TEST_ASSERT_EQUAL_STRING(str, node->content);
+	TEST_ASSERT_EQUAL_INT64(sizeof(str), node->content_size);
+	TEST_ASSERT_EQUAL_PTR(NULL, node->next);
+
+	ft_lstadd(&node, ft_lstnew(str2, sizeof(str2)));
+	TEST_ASSERT_EQUAL_STRING(str2, node->content);
+	TEST_ASSERT_EQUAL_INT64(sizeof(str2), node->content_size);
+	TEST_ASSERT_EQUAL_STRING(str, node->next->content);
+	TEST_ASSERT_EQUAL_INT64(sizeof(str), node->next->content_size);
+	TEST_ASSERT_EQUAL_PTR(NULL, node->next->next);
+
+	ft_lstdel(&node, &util_lst_deleter);
+}
+
+void test_ft_lstadd_back(void)
+{
+	char const str[] = "Hello World";
+	char const str2[] = "Bye World";
+	t_list	*node = NULL;
+
+	ft_lstadd_back(&node, ft_lstnew(str, sizeof(str)));
+	TEST_ASSERT_EQUAL_STRING(str, node->content);
+	TEST_ASSERT_EQUAL_INT64(sizeof(str), node->content_size);
+	TEST_ASSERT_EQUAL_PTR(NULL, node->next);
+
+	ft_lstadd_back(&node, ft_lstnew(str2, sizeof(str2)));
+	TEST_ASSERT_EQUAL_STRING(str, node->content);
+	TEST_ASSERT_EQUAL_INT64(sizeof(str), node->content_size);
+	TEST_ASSERT_EQUAL_STRING(str2, node->next->content);
+	TEST_ASSERT_EQUAL_INT64(sizeof(str2), node->next->content_size);
+	TEST_ASSERT_EQUAL_PTR(NULL, node->next->next);
+
+	ft_lstdel(&node, &util_lst_deleter);
+}
+
+void test_ft_lstdel(void)
+{
+	// Run valgrind (or smth else) to detect memory leaks here
+	t_list	*node = NULL;
+
+	ft_lstadd(&node, ft_lstnew(NULL, 0));
+	ft_lstadd(&node, ft_lstnew(NULL, 0));
+	ft_lstadd(&node, ft_lstnew(NULL, 0));
+	ft_lstadd(&node, ft_lstnew(NULL, 0));
+	ft_lstdel(&node, NULL);
+	TEST_ASSERT_EQUAL_PTR(NULL, node);
+}
+
+void test_ft_lstdelone(void)
+{
+	char const str[] = "Hello World";
+	t_list	*node = ft_lstnew(str, sizeof(str));
+
+	ft_lstdelone(&node, &util_lst_deleter);
+	TEST_ASSERT_EQUAL_PTR(NULL, node);
+}
+
+void test_ft_lstiter(void)
+{
+	t_list	*node = NULL;
+	t_list	*sp = NULL;
+
+	ft_lstadd(&node, ft_lstnew("124jl1", 7));
+	ft_lstadd(&node, ft_lstnew("JGJ41S", 7));
+	ft_lstadd(&node, ft_lstnew("Aadq2f", 7));
+	ft_lstadd(&node, ft_lstnew("AF21RD", 7));
+	ft_lstiter(node, &util_lst_iterator);
+	sp = node;
+	while (node)
+	{
+		TEST_ASSERT_EQUAL_STRING("SUCCESS", node->content);
+		TEST_ASSERT_EQUAL_INT64(1337, node->content_size);
+		node = node->next;
+	}
+	ft_lstdel(&sp, &util_lst_deleter);
+}
+
+void test_ft_lstmap(void)
+{
+	t_list *(*func[2])(t_list *elem);
+
+	func[0] = &util_lst_map_malloc;
+	func[1] = &util_lst_map_mreuse;
+	for (uint i = 0; i < sizeof(func) / sizeof(*func); i++)
+	{
+		t_list	*sp = NULL;
+		t_list	*new_sp = NULL;
+		t_list *list = NULL;
+		t_list *new_list = NULL;
+
+		ft_lstadd(&list, ft_lstnew("SUCCESS", 8));
+		ft_lstadd(&list, ft_lstnew("SUCCESS", 8));
+		ft_lstadd(&list, ft_lstnew("SUCCESS", 8));
+		ft_lstadd(&list, ft_lstnew("SUCCESS", 8));
+		new_list = ft_lstmap(list, func[i]);
+		sp = list;
+		new_sp = new_list;
+		while (list)
+		{
+			TEST_ASSERT_EQUAL_STRING("SUCCESS", list->content);
+			TEST_ASSERT_EQUAL_INT64(8, list->content_size);
+
+			TEST_ASSERT_EQUAL_STRING("SUCCESS+", new_list->content);
+			TEST_ASSERT_EQUAL_INT64(9, new_list->content_size);
+
+			list = list->next;
+			new_list = new_list->next;
+		}
+		ft_lstdel(&sp, &util_lst_deleter);
+		ft_lstdel(&new_sp, &util_lst_deleter);
+	}
+}
+
+void test_ft_memalloc(void)
+{
+	void *data = ft_memalloc(1024);
+
+	TEST_ASSERT_EACH_EQUAL_INT8(0, data, 1024);
+	free(data);
+}
+
+void test_ft_memccpy(void)
+{
+	uint8_t *my_data = malloc(16);
+	uint8_t *sys_data = malloc(16);
+
+	{
+		char const *s = "Hello\0W0rld";
+
+		memset(my_data, 0, 16);
+		memset(sys_data, 0, 16);
+		TEST_ASSERT_NOT_EQUAL(NULL, memccpy(sys_data, s, '0', 13));
+		TEST_ASSERT_NOT_EQUAL(NULL, ft_memccpy(my_data, s, '0', 13));
+		TEST_ASSERT_EQUAL_MEMORY(sys_data, my_data, 16);
+	}
+	{
+		char const *s = "Hello World Man";
+
+		memset(my_data, 0, 16);
+		memset(sys_data, 0, 16);
+		TEST_ASSERT_EQUAL_PTR(memccpy(sys_data, s, 'z', 16), ft_memccpy(my_data, s, 'z', 16));
+		TEST_ASSERT_EQUAL_MEMORY(sys_data, my_data, 16);
+	}
+	{
+		char const *s = "";
+
+		memset(my_data, 0, 16);
+		memset(sys_data, 0, 16);
+		TEST_ASSERT_EQUAL_PTR(memccpy(sys_data, s, 'q', 1), ft_memccpy(my_data, s, 'q', 1));
+		TEST_ASSERT_EQUAL_MEMORY(sys_data, my_data, 16);
+	}
+	free(sys_data);
+	free(my_data);
+}
+
+void test_ft_memchr(void)
+{
+	{
+		char s[] = "Example string";
+		TEST_ASSERT_EQUAL_PTR(memchr(s, 'p', sizeof(s)), ft_memchr(s, 'p', sizeof(s)));
+	}
+	{
+		char const *s = "";
+		TEST_ASSERT_EQUAL_PTR(memchr(s, 'x', strlen(s) + 1), ft_memchr(s, 'x', strlen(s) + 1));
+	}
+	{
+		char const *s = "abcdefabcdef";
+		TEST_ASSERT_EQUAL_PTR(memchr(s, 'y', strlen(s) + 1), ft_memchr(s, 'y', strlen(s) + 1));
+	}
+	{
+		char const *s = "11111111111111111111";
+		TEST_ASSERT_EQUAL_PTR(memchr(s, '1', strlen(s) + 1), ft_memchr(s, '1', strlen(s) + 1));
+	}
+}
+
+void test_ft_memcmp(void)
+{
+	{
+		char s1[] = "DWgaOtP12df0";
+		char s2[] = "DWgaOtP12DF0i";
+
+		TEST_ASSERT_EQUAL_INT(memcmp(s1, s2, sizeof(s1)), ft_memcmp(s1, s2, sizeof(s1)));
+		TEST_ASSERT_EQUAL_INT(memcmp(s1, s2, 9), ft_memcmp(s1, s2, 9));
+	}
+	{
+		char s1[] = "lox mydak";
+		char s2[] = "lox mydaki";
+
+		TEST_ASSERT_EQUAL_INT(memcmp(s1, s2, sizeof(s1) - 1), ft_memcmp(s1, s2, sizeof(s1) - 1));
+		TEST_ASSERT_EQUAL_INT(memcmp(s1, s2, sizeof(s1)), ft_memcmp(s1, s2, sizeof(s1)));
+		TEST_ASSERT_EQUAL_INT(memcmp(s1, s2, sizeof(s2)), ft_memcmp(s1, s2, sizeof(s2)));
+	}
+}
+
+void test_ft_memcpy(void)
+{
+	char my_data[16] = {0};
+	char sys_data[16] = {0};
+	char s[16] = "Hello World";
+
+	TEST_ASSERT_EQUAL_MEMORY(memcpy(sys_data, s, 12), ft_memcpy(my_data, s, 12), sizeof(sys_data));
+	TEST_ASSERT_EQUAL_MEMORY(memcpy(sys_data, s, sizeof(s)), ft_memcpy(my_data, s, sizeof(s)), sizeof(sys_data));
+}
+
+void test_ft_memdel(void)
+{
+	void *data = malloc(8);
+
+	ft_memdel(&data);
+	TEST_ASSERT_EQUAL_PTR(NULL, data);
+}
+
+void test_ft_memmove(void)
+{
+	char	my_data[128] = "OKOKO World!";
+	char	sys_data[128] = "OKOKO World!";
+
+	{
+		char const *s = "Hello";
+		TEST_ASSERT_EQUAL_MEMORY(memmove(sys_data, s, strlen(s)), ft_memmove(my_data, s, strlen(s)), sizeof(sys_data));
+	}
+	{
+		char const *s = "H\0llo";
+		TEST_ASSERT_EQUAL_MEMORY(memmove(sys_data, s, 5), ft_memmove(my_data, s, 5), sizeof(sys_data));
+	}
+	{
+		char const *s = "It's Perfect!!!";
+		memset(sys_data, 0, sizeof(sys_data));
+		memset(my_data, 0, sizeof(my_data));
+		snprintf(sys_data, sizeof(sys_data), "OKOKO World!");
+		snprintf(my_data, sizeof(my_data), "OKOKO World!");
+		TEST_ASSERT_EQUAL_MEMORY(memmove(sys_data, s, strlen(s) + 1), ft_memmove(my_data, s, strlen(s) + 1), sizeof(sys_data));
+	}
+	{
+		char const *s = "It's Perfect!!!";
+		memset(sys_data, 0, sizeof(sys_data));
+		memset(my_data, 0, sizeof(my_data));
+		snprintf(sys_data, sizeof(sys_data), "%s", s);
+		snprintf(my_data, sizeof(my_data), "%s", s);
+		memmove(sys_data + 15, sys_data + 4, 11);
+		ft_memmove(my_data + 15, my_data + 4, 11);
+		TEST_ASSERT_EQUAL_MEMORY(sys_data, my_data, sizeof(sys_data));
+	}
+}
+
+void test_ft_memset(void)
+{
+	char	my_data[16] = "OKOKO World!";
+	char	sys_data[16] = "OKOKO World!";
+
+	TEST_ASSERT_EQUAL_MEMORY(memset(sys_data, 2, 3), ft_memset(my_data, 2, 3), sizeof(sys_data));
+	TEST_ASSERT_EQUAL_MEMORY(memset(sys_data, 4, 12), ft_memset(my_data, 4, 12), sizeof(sys_data));
+	TEST_ASSERT_EQUAL_MEMORY(memset(sys_data, 'x', sizeof(sys_data)), ft_memset(my_data, 'x', sizeof(my_data)), sizeof(sys_data));
+}
+
 int main(int ac, char **argv)
 {
 	(void)ac;
@@ -526,5 +866,25 @@ int main(int ac, char **argv)
 	RUN_TEST(test_ft_isascii);
 	RUN_TEST(test_ft_isdigit);
 	RUN_TEST(test_ft_isprint);
+	RUN_TEST(test_ft_itoa);
+
+	/* Linked List Tests [START]*/
+	RUN_TEST(test_ft_lstnew);
+	RUN_TEST(test_ft_lstadd);
+	RUN_TEST(test_ft_lstadd_back);
+	RUN_TEST(test_ft_lstdel);
+	RUN_TEST(test_ft_lstdelone);
+	RUN_TEST(test_ft_lstiter);
+	RUN_TEST(test_ft_lstmap);
+	/* Linked List Tests [END]*/
+
+	RUN_TEST(test_ft_memalloc);
+	RUN_TEST(test_ft_memccpy);
+	RUN_TEST(test_ft_memchr);
+	RUN_TEST(test_ft_memcmp);
+	RUN_TEST(test_ft_memcpy);
+	RUN_TEST(test_ft_memdel);
+	RUN_TEST(test_ft_memmove);
+	RUN_TEST(test_ft_memset);
 	return (UNITY_END());
 }
