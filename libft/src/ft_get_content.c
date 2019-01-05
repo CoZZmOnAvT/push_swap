@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_get_content.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgritsen <pgritsen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 17:49:58 by pgritsen          #+#    #+#             */
-/*   Updated: 2017/11/03 21:46:54 by pgritsen         ###   ########.fr       */
+/*   Created: 2018/03/05 19:34:16 by pgritsen          #+#    #+#             */
+/*   Updated: 2018/03/05 19:55:33 by pgritsen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+char	*ft_get_content(const char *src, char open, char close)
 {
-	void	*p_d;
+	char	*start_p;
+	char	*end_p;
+	char	*ret;
 
-	if (!dest)
+	if (!(start_p = ft_strchr(src, open)))
 		return (NULL);
-	else if (!src)
-		return (dest);
-	p_d = dest;
-	while (n--)
-		*((unsigned char *)p_d++) = *((unsigned char *)src++);
-	return (dest);
+	if (!(end_p = ft_strchr(start_p + 1, close)))
+		return (NULL);
+	if (!(ret = ft_strsub(start_p, 1, end_p - start_p - 1)))
+		return (NULL);
+	return (ret);
 }

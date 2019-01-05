@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_dlstmerge.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgritsen <pgritsen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 17:49:58 by pgritsen          #+#    #+#             */
-/*   Updated: 2017/11/03 21:46:54 by pgritsen         ###   ########.fr       */
+/*   Created: 2018/09/02 14:09:32 by pgritsen          #+#    #+#             */
+/*   Updated: 2018/09/02 14:09:39 by pgritsen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+t_dlist		*ft_dlstmerge(t_dlist **a, t_dlist **b)
 {
-	void	*p_d;
-
-	if (!dest)
+	if (!a)
 		return (NULL);
-	else if (!src)
-		return (dest);
-	p_d = dest;
-	while (n--)
-		*((unsigned char *)p_d++) = *((unsigned char *)src++);
-	return (dest);
+	else if (!b)
+		return (*a);
+	else if (!*a || !*b)
+		return (*a = *b);
+	(*a)->next->prev = (*b)->prev;
+	(*b)->next->prev = (*a);
+	(*b)->prev->next = (*a)->next;
+	(*a)->next = (*b)->next;
+	ft_memdel((void **)&(*b)->content);
+	ft_memdel((void **)b);
+	return (*a);
 }

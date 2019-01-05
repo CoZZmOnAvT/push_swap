@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_cinustr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgritsen <pgritsen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 17:49:58 by pgritsen          #+#    #+#             */
-/*   Updated: 2017/11/03 21:46:54 by pgritsen         ###   ########.fr       */
+/*   Created: 2018/08/26 19:48:01 by pgritsen          #+#    #+#             */
+/*   Updated: 2018/08/26 20:09:16 by pgritsen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+size_t	ft_cinustr(const char *s)
 {
-	void	*p_d;
+	size_t				ret;
+	const unsigned char	*p_s;
 
-	if (!dest)
-		return (NULL);
-	else if (!src)
-		return (dest);
-	p_d = dest;
-	while (n--)
-		*((unsigned char *)p_d++) = *((unsigned char *)src++);
-	return (dest);
+	if (!s)
+		return (0);
+	p_s = (const unsigned char *)s;
+	ret = 0;
+	while (*p_s && ++ret)
+	{
+		if (*p_s == 0x1B)
+			p_s += 8;
+		else if (*p_s >= 0xC2 && *p_s <= 0xDF)
+			p_s += 2;
+		else if (*p_s >= 0xE0 && *p_s <= 0xEF)
+			p_s += 3;
+		else if (*p_s >= 0xF0 && *p_s <= 0xF4)
+			p_s += 4;
+		else
+			p_s += 1;
+	}
+	return (ret);
 }

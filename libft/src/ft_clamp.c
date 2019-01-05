@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_clamp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgritsen <pgritsen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 17:49:58 by pgritsen          #+#    #+#             */
-/*   Updated: 2017/11/03 21:46:54 by pgritsen         ###   ########.fr       */
+/*   Created: 2018/08/26 12:53:51 by pgritsen          #+#    #+#             */
+/*   Updated: 2018/08/26 12:55:16 by pgritsen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+uint64_t	ft_clamp(uint64_t min, uint64_t max, uint64_t val)
 {
-	void	*p_d;
-
-	if (!dest)
-		return (NULL);
-	else if (!src)
-		return (dest);
-	p_d = dest;
-	while (n--)
-		*((unsigned char *)p_d++) = *((unsigned char *)src++);
-	return (dest);
+	if (val < min)
+		return (min);
+	else if (val > max)
+		return (max);
+	else
+		return (val);
 }

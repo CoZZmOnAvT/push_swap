@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_vstrjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgritsen <pgritsen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 17:49:58 by pgritsen          #+#    #+#             */
-/*   Updated: 2017/11/03 21:46:54 by pgritsen         ###   ########.fr       */
+/*   Created: 2017/12/08 19:53:23 by pgritsen          #+#    #+#             */
+/*   Updated: 2018/09/15 12:57:48 by pgritsen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdarg.h>
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+int		s_clean(void *data)
 {
-	void	*p_d;
+	free(data);
+	return (0);
+}
 
-	if (!dest)
+char	*ft_vstrjoin(int n, ...)
+{
+	va_list	args;
+	char	*ret;
+
+	if (n <= 0)
 		return (NULL);
-	else if (!src)
-		return (dest);
-	p_d = dest;
-	while (n--)
-		*((unsigned char *)p_d++) = *((unsigned char *)src++);
-	return (dest);
+	va_start(args, n);
+	ret = ft_strdup(va_arg(args, char *));
+	if (n == 1)
+		return (ret);
+	while (n-- > 1)
+		ret = ft_strjoin(ret, va_arg(args, char *)) - s_clean(ret);
+	va_end(args);
+	return (ret);
 }
