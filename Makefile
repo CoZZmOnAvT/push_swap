@@ -3,10 +3,10 @@
 #                                                                              #
 #    Makefile                                                                  #
 #                                                                              #
-#    By: cozzmonavt                                                            #
+#    By: phrytsenko                                                            #
 #                                                                              #
 #    Created: 2019/01/05 14:53:53 by cozzmonavt                                #
-#    Updated: 2019/01/06 18:15:56 by cozzmonavt                                #
+#    Updated: 2019/01/08 16:16:10 by phrytsenko                                #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,7 @@ BUILD_DIR = ./build
 BUILD_DEPENDENCIES = ${BUILD_DIR} ${BUILD_DIR}/Makefile
 
 all: ${BUILD_DEPENDENCIES}
-	@+${DEFAULT_INTERPREU} -c \
-		"cd ${BUILD_DIR} && \
-		make -s";
+	@+${DEFAULT_INTERPREU} -c "make -s -C ${BUILD_DIR}";
 
 ${BUILD_DEPENDENCIES}:
 	@${DEFAULT_INTERPREU} -c \
@@ -37,3 +35,5 @@ fclean: ${BUILD_DEPENDENCIES}
 		make -s clean";
 
 re: fclean all
+
+.NOTPARALLEL:
