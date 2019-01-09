@@ -17,5 +17,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ft)
 
 add_subdirectory(libft)
+add_subdirectory(libstack)
+add_subdirectory(liberrors)
 add_subdirectory(unity_test_framework)
 add_subdirectory(checker)

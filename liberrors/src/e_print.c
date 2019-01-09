@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   main.c                                                                   */
+/*   e_print.c                                                                */
 /*                                                                            */
 /*   By: phrytsenko                                                           */
 /*                                                                            */
 /*   Created: 2019/01/02 15:45:07 by cozzmonavt                               */
-/*   Updated: 2019/01/09 18:03:15 by phrytsenko                               */
+/*   Updated: 2019/01/09 15:59:11 by phrytsenko                               */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <errors.h>
-#include "error_codes.h"
-#include "stack_op.h"
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include "libft.h"
 
-int main(int argc, char *argv[])
+int e_print(int err_code, char const *err_msg)
 {
-	int		err;
-	t_dlist	*main_stack;
+	char	*complete_msg;
 
-	if ((main_stack = stack_from_array(argc, argv)) == NULL)
-		return (e_print(INVALID_STACK, "Error"));
-	err = sort_stack(&main_stack);
-	ft_dlstclear(&main_stack);
-	if (err == NOT_SORTED)
-		return (e_print(err, "KO"));
-	else if (err)
-		return (e_print(err, "Error"));
-	ft_putendl("OK");
-	return (0);
+	complete_msg = ft_strjoin(err_msg, "\n");
+    ft_putstr_fd(complete_msg, STDERR_FILENO);
+	free(complete_msg);
+	return (err_code);
 }

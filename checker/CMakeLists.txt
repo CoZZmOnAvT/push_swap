@@ -13,4 +13,4 @@ include_directories(${PROJECT_HEADERS_DIR})
 file(GLOB SOURCES ${PROJECT_SRC_DIR}/*.c)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ft)
+target_link_libraries(${PROJECT_NAME} ft errors stack)
