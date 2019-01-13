@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   stack_op.h                                                               */
+/*   stack_errors.h                                                           */
 /*                                                                            */
-/*   By: phrytsenko                                                           */
+/*   By: cozzmonavt                                                           */
 /*                                                                            */
 /*   Created: 2019/01/09 15:28:27 by phrytsenko                               */
-/*   Updated: 2019/01/09 18:03:21 by phrytsenko                               */
+/*   Updated: 2019/01/13 12:56:40 by cozzmonavt                               */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHECKER_INCLUDE_STACK_OP_H_
-# define CHECKER_INCLUDE_STACK_OP_H_
+#ifndef LIBSTACK_INCLUDE_STACK_ERROR_CODES_H_
+# define LIBSTACK_INCLUDE_STACK_ERROR_CODES_H_
 
-struct t_dlist;
+# define INVALID_STACK 1
+# define INVALID_INSTRUCTION 2
+# define NOT_SORTED 3
 
-int		sort_stack(t_dlist **main_stack);
-
-t_dlist	*stack_from_array(int arr_size, char **arr);
-
-#endif  // CHECKER_INCLUDE_STACK_OP_H_
+#endif  // LIBSTACK_INCLUDE_STACK_ERROR_CODES_H_

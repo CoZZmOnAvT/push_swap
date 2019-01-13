@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   main.c                                                                   */
+/*   value_present_in_stack.c                                                 */
 /*                                                                            */
 /*   By: cozzmonavt                                                           */
 /*                                                                            */
-/*   Created: 2019/01/02 15:45:07 by cozzmonavt                               */
-/*   Updated: 2019/01/13 14:07:58 by cozzmonavt                               */
+/*   Created: 2019/01/13 12:36:26 by cozzmonavt                               */
+/*   Updated: 2019/01/13 12:38:21 by cozzmonavt                               */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stack.h>
-#include <stack_error_codes.h>
-#include <errors.h>
-#include "push_swap.h"
+#include <libft.h>
 
-int main(int argc, char *argv[])
+t_dlist	*value_present_in_stack(t_dlist *stack, int val)
 {
-    t_dlist *main_stack;
-    t_dlist *support_stack;
+	t_dlist *it;
 
-    support_stack = NULL;
-    if ((main_stack = stack_from_array(argc, argv)) == NULL)
-        return (e_print(INVALID_STACK, "Error"));
-    sort(&main_stack, &support_stack);
-    return (0);
+	it = stack;
+	while (it && (it = it->next) != stack)
+		if (*(int *)it->content == val)
+			return (it);
+	return (0);
 }

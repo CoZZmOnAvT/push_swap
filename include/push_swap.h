@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   error_codes.h                                                            */
+/*   push_swap.h                                                              */
 /*                                                                            */
-/*   By: phrytsenko                                                           */
+/*   By: cozzmonavt                                                           */
 /*                                                                            */
 /*   Created: 2019/01/09 15:28:27 by phrytsenko                               */
-/*   Updated: 2019/01/09 17:42:31 by phrytsenko                               */
+/*   Updated: 2019/01/13 14:51:50 by cozzmonavt                               */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHECKER_INCLUDE_ERROR_CODES_H_
-# define CHECKER_INCLUDE_ERROR_CODES_H_
+#ifndef PUSH_SWAP_INCLUDE_PUSH_SWAP_H_
+# define PUSH_SWAP_INCLUDE_PUSH_SWAP_H_
 
-# define INVALID_STACK 1
-# define INVALID_INSTRUCTION 2
-# define NOT_SORTED 3
+#include <libft.h>
 
-#endif  // CHECKER_INCLUDE_ERROR_CODES_H_
+void	sort(t_dlist **a, t_dlist **b);
+
+#endif  // PUSH_SWAP_INCLUDE_PUSH_SWAP_H_
