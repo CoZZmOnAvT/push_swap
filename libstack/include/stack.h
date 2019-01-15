@@ -3,10 +3,10 @@
 /*                                                                            */
 /*   stack.h                                                                  */
 /*                                                                            */
-/*   By: cozzmonavt                                                           */
+/*   By: phrytsenko                                                           */
 /*                                                                            */
 /*   Created: 2019/01/09 15:28:27 by phrytsenko                               */
-/*   Updated: 2019/01/13 13:42:03 by cozzmonavt                               */
+/*   Updated: 2019/01/15 15:12:00 by phrytsenko                               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,7 @@ t_dlist	    *value_present_in_stack(t_dlist *stack, int val);
 int         stack_is_sorted(t_dlist *stack, int asc);
 
 t_slowest   find_stack_lowest(t_dlist *stack);
+
+char const  *get_usage(char const *program_name);
 
 #endif  // LIBSTACK_INCLUDE_STACK_H_

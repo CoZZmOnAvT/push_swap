@@ -3,10 +3,10 @@
 /*                                                                            */
 /*   cmds1.c                                                                  */
 /*                                                                            */
-/*   By: cozzmonavt                                                           */
+/*   By: phrytsenko                                                           */
 /*                                                                            */
 /*   Created: 2019/01/02 15:45:07 by cozzmonavt                               */
-/*   Updated: 2019/01/13 12:50:48 by cozzmonavt                               */
+/*   Updated: 2019/01/15 15:21:58 by phrytsenko                               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void stack_rrr(t_dlist **a, t_dlist **b, int verbose)
 int apply_instruction(t_dlist **main_stack, t_dlist **support_stack,
 						char const *instruction, int verbose)
 {
-	char		*trimmed_instruction;
 	uint		it;
 	char const	*names[] = {"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr",
 		"rra", "rrb", "rrr"};
@@ -32,17 +31,12 @@ int apply_instruction(t_dlist **main_stack, t_dlist **support_stack,
 		&stack_ra, &stack_rb, &stack_rr, &stack_rra, &stack_rrb, &stack_rrr,
 	};
 
-	trimmed_instruction = ft_strtrim(instruction);
-	if (ft_strlen(trimmed_instruction) <= 0)
-		return (1);
 	it = -1;
 	while (++it < sizeof(names) / sizeof(*names))
 		if (ft_strequ(instruction, names[it]))
 		{
-			free(trimmed_instruction);
 			callbacks[it](main_stack, support_stack, verbose);
 			return (1);
 		}
-	free(trimmed_instruction);
 	return (0);
 }

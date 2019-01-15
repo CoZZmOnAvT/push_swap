@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   push_swap.h                                                              */
+/*   get_usage.c                                                              */
 /*                                                                            */
 /*   By: phrytsenko                                                           */
 /*                                                                            */
-/*   Created: 2019/01/09 15:28:27 by phrytsenko                               */
-/*   Updated: 2019/01/15 20:48:48 by phrytsenko                               */
+/*   Created: 2019/01/15 15:11:30 by phrytsenko                               */
+/*   Updated: 2019/01/15 15:12:50 by phrytsenko                               */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_INCLUDE_PUSH_SWAP_H_
-# define PUSH_SWAP_INCLUDE_PUSH_SWAP_H_
-
 #include <libft.h>
 
-void quicksort(t_dlist *lo, t_dlist *hi);
+char const  *get_usage(char const *program_name)
+{
+    static char u[512];
 
-#endif  // PUSH_SWAP_INCLUDE_PUSH_SWAP_H_
+    ft_bzero(u, sizeof(u));
+    ft_strlcat(u, program_name, sizeof(u));
+    ft_strlcat(u, ": Invalid number of instructions\n\nUsage: \n  ", sizeof(u));
+    ft_strlcat(u, program_name, sizeof(u));
+    ft_strlcat(u, " {SET_OF_NUMBERS_IN_RANGE [-2147483648..2147483647]}"
+                , sizeof(u));
+    return (u);
+}

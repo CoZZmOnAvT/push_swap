@@ -3,10 +3,10 @@
 /*                                                                            */
 /*   main.c                                                                   */
 /*                                                                            */
-/*   By: cozzmonavt                                                           */
+/*   By: phrytsenko                                                           */
 /*                                                                            */
 /*   Created: 2019/01/02 15:45:07 by cozzmonavt                               */
-/*   Updated: 2019/01/13 12:57:38 by cozzmonavt                               */
+/*   Updated: 2019/01/15 15:54:05 by phrytsenko                               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,18 @@ int	sort_stack(t_dlist **main_stack)
 
 	support_stack = NULL;
 	while (ft_get_next_line(0, &instruction) > 0)
-		if (!apply_instruction(main_stack, &support_stack, instruction, 0))
+	{
+		if (*instruction == 0)
+			return (stack_is_sorted(*main_stack, 1) ? 0 : NOT_SORTED);
+		else if (!apply_instruction(main_stack, &support_stack, instruction, 0))
 		{
-			free(instruction);
 			ft_dlstclear(&support_stack);
 			return (INVALID_INSTRUCTION);
 		}
-		else
-		{
-			free(instruction);
-			display_stacks(*main_stack, support_stack);
-		}
+		// else
+			// display_stacks(*main_stack, support_stack);
+		free(instruction);
+	}
 	ft_dlstclear(&support_stack);
 	return (stack_is_sorted(*main_stack, 1) ? 0 : NOT_SORTED);
 }
@@ -68,7 +69,9 @@ int	main(int argc, char *argv[])
 	int		err;
 	t_dlist	*main_stack;
 
-	if ((main_stack = stack_from_array(argc, argv)) == NULL)
+	if (argc <= 1)
+		return (e_print(NO_INSTRUCTIONS, get_usage(argv[0])));
+	else if ((main_stack = stack_from_array(argc, argv)) == NULL)
 		return (e_print(INVALID_STACK, "Error"));
 	err = sort_stack(&main_stack);
 	ft_dlstclear(&main_stack);

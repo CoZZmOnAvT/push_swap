@@ -3,31 +3,28 @@
 /*                                                                            */
 /*   stack_from_array.c                                                       */
 /*                                                                            */
-/*   By: cozzmonavt                                                           */
+/*   By: phrytsenko                                                           */
 /*                                                                            */
 /*   Created: 2019/01/13 12:33:57 by cozzmonavt                               */
-/*   Updated: 2019/01/13 14:35:29 by cozzmonavt                               */
+/*   Updated: 2019/01/15 14:59:48 by phrytsenko                               */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stack.h"
 
-static size_t   arg_is_a_num(char const *arg)
+static int   arg_is_a_num(char const *arg)
 {
     int     sign;
-    size_t  len;
-
     sign = 0;
-    len = 0;
-    while (arg[len])
+    while (*arg)
     {
-        if ((arg[len] == '+' || arg[len] == '-') && sign++)
-            return (-1);
-        else if (arg[len] != '+' && arg[len] != '-' && !ft_isdigit(arg[len]))
-            return (-1);
-        len++;
+        if ((*arg == '+' || *arg == '-') && sign++)
+            return (0);
+        else if (*arg != '+' && *arg != '-' && !ft_isdigit(*arg))
+            return (0);
+        arg++;
     }
-    return (len);
+    return (1);
 }
 
 static int itarate_sub_arr(t_dlist **ret, t_dlist *sub_arr)
@@ -39,7 +36,8 @@ static int itarate_sub_arr(t_dlist **ret, t_dlist *sub_arr)
     while (it && (it = it->prev) != sub_arr)
     {
         temp_num = ft_atoi(it->content);
-        if (arg_is_a_num(it->content) != ft_strlen(it->content)
+        if (arg_is_a_num(it->content) == 0
+            || temp_num != ft_atoll(it->content)
             || value_present_in_stack(*ret, temp_num)) {
             ft_dlstclear(&sub_arr);
             return (0);

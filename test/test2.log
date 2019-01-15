@@ -1,0 +1,21 @@
+[WARNING]: COUNT: 13, STACK:  10 2 0 6 7
+           INSTRUCTIONS:  sa ra ra pb ra ra pb sa pb sa pa pa pa
+[WARNING]: COUNT: 14, STACK:  10 2 1 8 7
+           INSTRUCTIONS:  sa ra ra pb sa ra ra pb sa pb sa pa pa pa
+[WARNING]: COUNT: 14, STACK:  6 1 0 4 2
+           INSTRUCTIONS:  sa ra ra pb sa ra ra pb sa pb sa pa pa pa
+[WARNING]: COUNT: 13, STACK:  7 2 0 3 6
+           INSTRUCTIONS:  sa ra ra pb ra ra pb sa pb sa pa pa pa
+[WARNING]: COUNT: 14, STACK:  8 4 0 6 5
+           INSTRUCTIONS:  sa ra ra pb sa ra ra pb sa pb sa pa pa pa
+
+[WARNING]: COUNT: 7, STACK:  10 2 0 6 7
+           INSTRUCTIONS:  pb pb ra pa rra pa ra
+[WARNING]: COUNT: 9, STACK:  10 2 1 8 7
+           INSTRUCTIONS:  pb pb rra sa ra pa rra pa ra
+[WARNING]: COUNT: 9, STACK:  6 1 0 4 2
+           INSTRUCTIONS:  pb pb rra sa ra pa rra pa ra
+[WARNING]: COUNT: 7, STACK:  7 2 0 3 6
+           INSTRUCTIONS:  pb pb ra pa rra pa ra
+[WARNING]: COUNT: 9, STACK:  8 4 0 6 5
+           INSTRUCTIONS:  pb pb rra sa ra pa rra pa ra
